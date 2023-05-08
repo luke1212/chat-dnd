@@ -1,0 +1,20 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h1>ChatGPT</h1>
+      <p id="content">
+        <b>{{ gptOutput }}</b>
+      </p>
+      <div id="footer">
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="questions"
+          placeholder="Ask Questions"
+          (keyup.enter)="onSubmit()"
+        />
+        <button class="btn btn-primary" (click)="onSubmit()">ChatGPT</button>
+      </div>
+    </div>
+  </div>
+</div>
