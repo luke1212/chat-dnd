@@ -47,7 +47,8 @@ export class DndMainComponent {
           Drinks: \
           coke 3.00, 2.00, 1.00 \
           sprite 3.00, 2.00, 1.00 \
-          bottled water 5.00 \ " }],
+          bottled water 5.00 \ " },
+        { role: "user", content: this.questions }],
       temperature: 0,
     });
     console.log(this.response);
