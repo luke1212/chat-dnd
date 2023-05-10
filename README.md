@@ -11,5 +11,5 @@ export class environment {
     }
 }
 ```
-Generate OpenAI private key in OpenAI API page and paste into the '' above.<br>
+Generate OpenAI private key in OpenAI API page and paste into the `''` above.<br>
 Run `npm run start` to start the project in http://localhost:4200/.
