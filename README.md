@@ -4,7 +4,7 @@ This project is auto dialog generator for Dungeons & Dragons games. The robot co
 
 ## Frontend Set Up
 Run `npm install` and add environment.ts file inside the src directory with following content:<br>
-    ```json
+    ```
     export class environment {
         public static openAI = {
             OPENAI_API_KEY: ''
