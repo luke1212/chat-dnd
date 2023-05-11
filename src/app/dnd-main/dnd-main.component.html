@@ -1,19 +1,24 @@
 <div class="container">
   <div class="row">
     <div class="col-md-12">
-      <h1>ChatGPT</h1>
+      <h1 class="text-center">ChatGPT</h1>
       <p id="content">
-        <b>{{ gptOutput }}</b>
+        <b
+          *ngFor="let m of messages"
+          class="text-nowrap bg-body-secondary border"
+          style="width: 8rem"
+        >
+          {{ m.role + ": " + m.content }}<br />
+        </b>
       </p>
       <div id="footer">
         <input
+          class="form-control form-control-lg"
           type="text"
-          class="form-control"
           [(ngModel)]="questions"
-          placeholder="Ask Questions"
+          placeholder="Welcome to Chat Pizza, What you want to order today?"
           (keyup.enter)="onSubmit()"
         />
-        <button class="btn btn-primary" (click)="onSubmit()">ChatGPT</button>
       </div>
     </div>
   </div>
