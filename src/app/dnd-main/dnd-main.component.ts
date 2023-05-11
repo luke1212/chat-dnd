@@ -9,20 +9,15 @@ import { environment } from "../../../environment";
 })
 export class DndMainComponent {
   questions = '';
-  gptOutput = '';
+  chatDisplay = '';
   configuration: Configuration = new Configuration({
     apiKey: environment.openAI.OPENAI_API_KEY,
   });
   openai: OpenAIApi = new OpenAIApi(this.configuration);
   response: any;
-
-  async onSubmit() {
-    this.response = await this.openai.createChatCompletion({
-      model: "gpt-3.5-turbo",
-      messages: [{
-        role: "system",
-        content: "You are OrderBot, an automated service to collect orders for a pizza restaurant. \
-          You first greet the customer, then collects the order, \
+  messages: any = [{
+    role: "system",
+    content: "You are OrderBot, an automated service to collect orders for a pizza restaurant.You first greet the customer, then collects the order, \
           and then asks if it's a pickup or delivery. \
           You wait to collect the entire order, then summarize it and check for a final \
           time if the customer wants to add anything else. \
@@ -47,12 +42,24 @@ export class DndMainComponent {
           Drinks: \
           coke 3.00, 2.00, 1.00 \
           sprite 3.00, 2.00, 1.00 \
-          bottled water 5.00 \ " },
-        { role: "user", content: this.questions }],
+          bottled water 5.00 \ " }];
+
+  async onSubmit() {
+    this.updateMessages({
+      role: "user", content: this.questions
+    });
+
+    this.response = await this.openai.createChatCompletion({
+      model: "gpt-3.5-turbo",
+      messages: this.messages,
       temperature: 0,
     });
-    console.log(this.response);
-    this.gptOutput = this.response.data.choices[0].message.content;
+    this.updateMessages({ role: "system", content: this.response.data.choices[0].message.content });
     this.questions = '';
   }
+
+  private updateMessages(message: any) {
+    this.messages.push(message);
+  }
+
 }
