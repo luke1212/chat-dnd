@@ -1,13 +1,24 @@
 import { Component } from '@angular/core';
 import { Configuration, OpenAIApi } from "openai";
 import { environment } from "../../../environment";
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-dnd-main',
   templateUrl: './dnd-main.component.html',
   styleUrls: ['./dnd-main.component.css']
 })
+
+//npm install bootstrap bootstrap-icons
+//npm install @ng-bootstrap/ng-bootstrap
 export class DndMainComponent {
+
+  constructor(private modalService: NgbModal) {
+  }
+
+  public open(modal: any): void {
+    this.modalService.open(modal);
+  }
   questions = '';
   chatDisplay = '';
   configuration: Configuration = new Configuration({
