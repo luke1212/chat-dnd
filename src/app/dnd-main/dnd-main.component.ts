@@ -43,13 +43,12 @@ If a creature decides to attack my character, you may generate an attack roll fo
 Before we begin playing, I would like you to provide my three adventure options.Each should be a short description of the kind of adventure we will play, and what the tone of the adventure will be.Once I decide on the adventure, you may provide a brief setting description and begin the game.I would also like an opportunity to provide the details of my character for your reference, specifically my class, race, AC, and HP. " }];
 
   async onSubmit() {
-    this.checkToken();
     this.updateMessages({
       role: "user", content: this.questions
     });
     await this.openAiApiCall();
     this.questions = '';
-    console.log(this.countTokens(this.messages));
+    this.checkToken();
   }
 
   async onSave() {
@@ -73,7 +72,7 @@ Before we begin playing, I would like you to provide my three adventure options.
   }
 
   private checkToken() {
-    if (this.countTokens(this.messages) > 1000) {
+    if (this.countTokens(this.messages) > 3000) {
       alert("We are about to reach the token limit. please save the process");
     }
   }
