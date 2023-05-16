@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Configuration, OpenAIApi } from "openai";
 import { environment } from "../../../environment";
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { count } from 'rxjs';
 
 @Component({
   selector: 'app-dnd-main',
@@ -42,21 +43,42 @@ If a creature decides to attack my character, you may generate an attack roll fo
 Before we begin playing, I would like you to provide my three adventure options.Each should be a short description of the kind of adventure we will play, and what the tone of the adventure will be.Once I decide on the adventure, you may provide a brief setting description and begin the game.I would also like an opportunity to provide the details of my character for your reference, specifically my class, race, AC, and HP. " }];
 
   async onSubmit() {
+    this.checkToken();
     this.updateMessages({
       role: "user", content: this.questions
     });
+    await this.openAiApiCall();
+    this.questions = '';
+    console.log(this.countTokens(this.messages));
+  }
 
+  async onSave() {
+    this.updateMessages({ role: "user", content: "We are about to reach the token limit. please help me save the current state of the game in json format" })
+    await this.openAiApiCall();
+  }
+
+  private async openAiApiCall() {
     this.response = await this.openai.createChatCompletion({
       model: "gpt-3.5-turbo",
       messages: this.messages,
       temperature: 0,
     });
     this.updateMessages({ role: "system", content: this.response.data.choices[0].message.content });
-    this.questions = '';
   }
+
+
 
   private updateMessages(message: any) {
     this.messages.push(message);
   }
 
+  private checkToken() {
+    if (this.countTokens(this.messages) > 1000) {
+      alert("We are about to reach the token limit. please save the process");
+    }
+  }
+
+  private countTokens(words: { role: string; content: string }[]): number {
+    return words.reduce((acc, word) => acc + (word.content.split(' ').length), 0);
+  }
 }
