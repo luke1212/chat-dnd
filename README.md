@@ -13,3 +13,7 @@ export class environment {
 ```
 Generate OpenAI private key in OpenAI API page and paste into the `''` above.<br>
 Run `npm run start` to start the project in http://localhost:4200/.
+
+## BootStrap install
+  Run `npm install bootstrap bootstrap-icons` and `npm install @ng-bootstrap/ng-bootstrap`
+  
