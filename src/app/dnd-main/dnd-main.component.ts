@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Configuration, OpenAIApi } from "openai";
 import { environment } from "../../../environment";
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { count } from 'rxjs';
+import { Subscription } from 'rxjs';
+import { UserService } from "../services/user.service";
+import { User } from '../model/user.model';
 
 @Component({
   selector: 'app-dnd-main',
@@ -12,15 +14,13 @@ import { count } from 'rxjs';
 
 //npm install bootstrap bootstrap-icons
 //npm install @ng-bootstrap/ng-bootstrap
-export class DndMainComponent {
+export class DndMainComponent implements OnInit, OnDestroy {
 
   questions = '';
   chatDisplay = '';
-  configuration: Configuration = new Configuration({
-    apiKey: environment.openAI.OPENAI_API_KEY,
-  });
-  openai: OpenAIApi = new OpenAIApi(this.configuration);
   response: any;
+  users: User[] = [];
+
   messages: any = [{
     role: "system",
     content: "Act as though we are playing a Game of Dungeons and Dragons 5th edition. Act as though you are the dungeon master and I am the player. We will be creating a narrative together, where I make decisions for my character, and you make decisions for all other characters (NPCs) and creatures in the world.\
@@ -36,11 +36,25 @@ export class DndMainComponent {
       If a creature decides to attack my character, you may generate an attack roll for them.If the roll meets or exceeds my own AC, then the attack is successful and you can now generate a damage roll.That damage roll will be subtracted from my own hp.If the hp of a creature reaches 0, that creature dies.Participants in combat are unable to take actions outside of their own turn.\
       Before we begin playing, I would like you to provide my three adventure options.Each should be a short description of the kind of adventure we will play, and what the tone of the adventure will be.Once I decide on the adventure, you may provide a brief setting description and begin the game.I would also like an opportunity to provide the details of my character for your reference, specifically my class, race, AC, and HP. " }];
 
+  private usersSub!: Subscription;
+  private configuration: Configuration = new Configuration({
+    apiKey: environment.openAI.OPENAI_API_KEY,
+  });
+  private openai: OpenAIApi = new OpenAIApi(this.configuration);
 
-  constructor(private modalService: NgbModal, ) {
+  constructor(private modalService: NgbModal, public userService: UserService) {
   }
 
-  public open(modal: any): void {
+  ngOnInit(): void {
+    this.userService.getUsers();
+    this.usersSub = this.userService.getUserUpdateListener().subscribe(
+      (users: User[]) => {
+        this.users = users;
+      }
+    )
+  }
+
+  open(modal: any): void {
     this.modalService.open(modal);
   }
 
@@ -58,7 +72,7 @@ export class DndMainComponent {
     await this.openAiApiCall();
   }
 
-  private async openAiApiCall() {
+  async openAiApiCall() {
     this.response = await this.openai.createChatCompletion({
       model: "gpt-3.5-turbo",
       messages: this.messages,
@@ -69,17 +83,22 @@ export class DndMainComponent {
 
 
 
-  private updateMessages(message: any) {
+  updateMessages(message: any) {
     this.messages.push(message);
   }
 
-  private checkToken() {
+  checkToken() {
     if (this.countTokens(this.messages) > 3000) {
       alert("We are about to reach the token limit. please save the process");
     }
   }
 
-  private countTokens(words: { role: string; content: string }[]): number {
+  countTokens(words: { role: string; content: string }[]): number {
     return words.reduce((acc, word) => acc + (word.content.split(' ').length), 0);
   }
+
+  ngOnDestroy(): void {
+    this.usersSub.unsubscribe();
+  }
+
 }
