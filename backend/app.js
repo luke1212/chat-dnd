@@ -1,9 +1,7 @@
-const express = require("express");
-const bodyParser = require("body-parser");
 
-const environment = require("./environment"); 
-const app = express();
+//MongoDB
 const { MongoClient, ServerApiVersion } = require('mongodb');
+const environment = require("./environment"); 
 const uri = environment.mongoDB.MONGODB_URI;
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
@@ -28,6 +26,11 @@ async function run() {
 }
 run().catch(console.dir);
 
+
+//API
+const express = require("express");
+const bodyParser = require("body-parser");
+const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
