@@ -26,10 +26,10 @@ export class UserService {
         return this.usersUpdated.asObservable();
     }
 
-    addUser(id: string, title: string, content: string) {
-        const user: User = { id: id, name: title, content: content };
+    addUser(name: string, password: string) {
+        const user: User = { name: name, password: password };
         this.http
-            .post<{ message: string }>("http://localhost:3000/api/users", user)
+            .post<{ message: string }>("http://localhost:3000/api/posts", user)
             .subscribe(responseData => {
                 console.log(responseData.message);
                 this.users.push(user);
