@@ -1,8 +1,8 @@
 
 //MongoDB
 const { MongoClient, ServerApiVersion } = require('mongodb');
-const environment = require("./environment"); 
-const uri = environment.mongoDB.MONGODB_URI;
+const environment = require("./environment");
+const uri = environment.mongoDB.MONGODB_LOCAL_URI;
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
   serverApi: {
@@ -47,17 +47,24 @@ app.use((req, res, next) => {
   next();
 });
 
+app.post("/api/posts", (req, res, next) => {
+  const post = req.body;
+  console.log(post);
+  res.status(201).json({
+    message: 'Post added successfully'
+  });
+  next();
+});
+
 app.get("/api/users", (req, res, next) => {
   const users = [
     {
-      id: "1",
       name: "Luke",
-      content: "I will make a DND Master with ChatGPT"
+      password: "I will make a DND Master with ChatGPT"
     },
     {
-      id: "2",
       name: "Betty",
-      content: "This is my wife! She play computer games every day!"
+      password: "This is my wife! She play computer games every day!"
     }
   ];
   res.status(200).json({

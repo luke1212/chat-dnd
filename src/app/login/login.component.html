@@ -1,19 +1,31 @@
-<div class="row">
-  <div class="col">
-    <form (ngSubmit)="onSubmit()" [formGroup]="loginForm">
-      <div class="form-group">
-        <label for="username"></label>
-        <input class="form-control" formControlName="username" type="text" />
-        <label for="password">Password</label>
-        <input class="form-control" formControlName="password" type="text" />
-      </div>
-      <button
-        [disabled]="!loginForm.valid"
-        type="submit"
-        clas="btn btn-success"
-      >
-        Login
-      </button>
-    </form>
-  </div>
-</div>
+<mat-card>
+  <form (submit)="onSubmit(postForm)" #postForm="ngForm">
+    <mat-form-field>
+      <input
+        matInput
+        type="text"
+        name="username"
+        ngModel
+        required
+        minlength="3"
+        placeholder="username"
+        #username="ngModel">
+      <mat-error *ngIf="username.invalid">Please enter a username.</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <textarea
+        matInput
+        rows="4"
+        name="password"
+        ngModel
+        required
+        placeholder="password"
+        #password="ngModel"></textarea>
+      <mat-error *ngIf="password.invalid">Please enter a password.</mat-error>
+    </mat-form-field>
+    <button
+      mat-raised-button
+      color="accent"
+      type="submit">Save Post</button>
+  </form>
+</mat-card>

@@ -1,26 +1,21 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, Validators, FormControl } from '@angular/forms';
+import { Component } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { UserService } from "../services/user.service";
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
 
-  loginForm: FormGroup;
+  constructor(public userService: UserService) { }
 
-  constructor() {
-    this.loginForm = new FormGroup({
-      'username': new FormControl('', [Validators.required]),
-      'password': new FormControl('', [Validators.required])
-    })
-  }
-
-  ngOnInit(): void {
-
-  }
-
-  onSubmit() {
+  onSubmit(form: NgForm) {
+    if (form.invalid) {
+      return;
+    }
+    this.userService.addUser(form.value.username, form.value.password);
+    form.resetForm();
   }
 }
