@@ -26,6 +26,19 @@ async function run() {
 }
 run().catch(console.dir);
 
+async function addUserToDb(client, user) {
+  try {
+    // Connect the client to the server	(optional starting in v4.7)
+    await client.connect();
+    // insert user to Mongodb in user schema
+    const result = await client.db("admin").collection("users").insertOne(user);
+    console.log("User added successfully!");
+    console.log("User id is: " + result.insertedId);
+  } finally {
+    // Ensures that the client will close when you finish/error
+    await client.close();
+  }
+}
 
 //API
 const express = require("express");
@@ -50,6 +63,7 @@ app.use((req, res, next) => {
 app.post("/api/posts", (req, res, next) => {
   const post = req.body;
   console.log(post);
+  //addUserToDb(post).catch(console.dir);
   res.status(201).json({
     message: 'Post added successfully'
   });
