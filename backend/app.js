@@ -2,35 +2,25 @@
 //MongoDB
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const environment = require("./environment");
-const uri = environment.mongoDB.MONGODB_LOCAL_URI;
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
-const client = new MongoClient(uri, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-  }
-});
+const mongoose = require("mongoose");
 
-async function run() {
-  try {
-    // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
-    // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
-    console.log("Pinged your deployment. You successfully connected to MongoDB!");
-  } finally {
-    // Ensures that the client will close when you finish/error
-    await client.close();
-  }
-}
-run().catch(console.dir);
-
+mongoose
+  .connect(
+    environment.mongoDB.MONGODB_URI
+  )
+  .then(() => {
+    console.log("Connected to database!");
+  })
+  .catch(() => {
+    console.log("Connection failed!");
+  });
 
 //API
 const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
+const User = require("./models/user");
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -48,12 +38,18 @@ app.use((req, res, next) => {
 });
 
 app.post("/api/posts", (req, res, next) => {
-  const post = req.body;
-  console.log(post);
-  res.status(201).json({
-    message: 'Post added successfully'
+  const user = new User({
+    username: req.body.name,
+    password: req.body.password
+  })
+
+  console.log(req.body);
+  user.save().then(createdPost => {
+    res.status(201).json({
+      message: "Users added successfully",
+      postId: createdPost._id
+    });
   });
-  next();
 });
 
 app.get("/api/users", (req, res, next) => {
