@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Configuration, OpenAIApi } from "openai";
-import { environment } from "../../../environment";
+import { environment } from "../../../environments/environment";
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from "../services/user.service";
 import { User } from '../model/user.model';
@@ -35,7 +35,7 @@ export class DndMainComponent implements OnInit {
       Before we begin playing, I would like you to provide my three adventure options.Each should be a short description of the kind of adventure we will play, and what the tone of the adventure will be.Once I decide on the adventure, you may provide a brief setting description and begin the game.I would also like an opportunity to provide the details of my character for your reference, specifically my class, race, AC, and HP. " }];
 
   private configuration: Configuration = new Configuration({
-    apiKey: environment.openAI.OPENAI_API_KEY,
+    apiKey: environment.OPENAI_API_KEY,
   });
   private openai: OpenAIApi = new OpenAIApi(this.configuration);
 
