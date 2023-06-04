@@ -1,0 +1,15 @@
+.main-div {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+mat-form-field,
+textarea {
+    width: 100%;
+}
+
+mat-dialog-actions {
+    justify-content: flex-end;
+}
