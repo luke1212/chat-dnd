@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Configuration, OpenAIApi } from "openai";
 import { environment } from "../../../environments/environment";
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Subscription } from 'rxjs';
 import { UserService } from "../services/user.service";
 import { User } from '../model/user.model';
 
@@ -14,12 +13,11 @@ import { User } from '../model/user.model';
 
 //npm install bootstrap bootstrap-icons
 //npm install @ng-bootstrap/ng-bootstrap
-export class DndMainComponent implements OnInit, OnDestroy {
+export class DndMainComponent implements OnInit {
 
   questions = '';
   chatDisplay = '';
   response: any;
-  users: User[] = [];
 
   messages: any = [{
     role: "system",
@@ -36,7 +34,6 @@ export class DndMainComponent implements OnInit, OnDestroy {
       If a creature decides to attack my character, you may generate an attack roll for them.If the roll meets or exceeds my own AC, then the attack is successful and you can now generate a damage roll.That damage roll will be subtracted from my own hp.If the hp of a creature reaches 0, that creature dies.Participants in combat are unable to take actions outside of their own turn.\
       Before we begin playing, I would like you to provide my three adventure options.Each should be a short description of the kind of adventure we will play, and what the tone of the adventure will be.Once I decide on the adventure, you may provide a brief setting description and begin the game.I would also like an opportunity to provide the details of my character for your reference, specifically my class, race, AC, and HP. " }];
 
-  private usersSub!: Subscription;
   private configuration: Configuration = new Configuration({
     apiKey: environment.OPENAI_API_KEY,
   });
@@ -46,12 +43,8 @@ export class DndMainComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.userService.getUsers();
-    this.usersSub = this.userService.getUserUpdateListener().subscribe(
-      (users: User[]) => {
-        this.users = users;
-      }
-    )
+
+
   }
 
   open(modal: any): void {
@@ -81,8 +74,6 @@ export class DndMainComponent implements OnInit, OnDestroy {
     this.updateMessages({ role: "system", content: this.response.data.choices[0].message.content });
   }
 
-
-
   updateMessages(message: any) {
     this.messages.push(message);
   }
@@ -96,9 +87,4 @@ export class DndMainComponent implements OnInit, OnDestroy {
   countTokens(words: { role: string; content: string }[]): number {
     return words.reduce((acc, word) => acc + (word.content.split(' ').length), 0);
   }
-
-  ngOnDestroy(): void {
-    this.usersSub.unsubscribe();
-  }
-
 }

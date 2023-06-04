@@ -1,31 +1,38 @@
-<mat-card>
-  <form (submit)="onSubmit(postForm)" #postForm="ngForm">
-    <mat-form-field>
-      <input
-        matInput
-        type="text"
-        name="username"
-        ngModel
-        required
-        minlength="3"
-        placeholder="username"
-        #username="ngModel">
-      <mat-error *ngIf="username.invalid">Please enter a username.</mat-error>
-    </mat-form-field>
-    <mat-form-field>
-      <textarea
-        matInput
-        rows="4"
-        name="password"
-        ngModel
-        required
-        placeholder="password"
-        #password="ngModel"></textarea>
-      <mat-error *ngIf="password.invalid">Please enter a password.</mat-error>
-    </mat-form-field>
-    <button
-      mat-raised-button
-      color="accent"
-      type="submit">Save Post</button>
-  </form>
-</mat-card>
+<div class="main-div">
+  <mat-card>
+    <form (submit)="onSubmit(postForm)" #postForm="ngForm">
+      <mat-form-field>
+        <input
+          matInput
+          type="text"
+          name="username"
+          ngModel
+          required
+          minlength="3"
+          placeholder="username"
+          #username="ngModel"
+        />
+        <mat-error *ngIf="username.invalid">Please enter a username.</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input
+          matInput
+          rows="4"
+          name="password"
+          ngModel
+          required
+          placeholder="password"
+          #password="ngModel"
+        />
+        <mat-error *ngIf="password.invalid">Please enter a password.</mat-error>
+      </mat-form-field>
+      <div mat-dialog-actions>
+        <button mat-raised-button color="accent" type="submit">Login</button>
+      </div>
+    </form>
+  </mat-card>
+  <div *ngFor="let user of users">
+    <p>{{ user.username }}</p>
+    <p>{{ user.password }}</p>
+  </div>
+</div>

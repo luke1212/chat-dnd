@@ -9,3 +9,13 @@
 .text-center {
     text-align: center;
 }
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+}
+
+section {
+    height: 100vh;
+}
