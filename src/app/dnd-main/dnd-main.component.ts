@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Configuration, OpenAIApi } from "openai";
-import { environment } from "../../../environment";
+import { environment } from "../../../environments/environment";
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { UserService } from "../services/user.service";
@@ -38,7 +38,7 @@ export class DndMainComponent implements OnInit, OnDestroy {
 
   private usersSub!: Subscription;
   private configuration: Configuration = new Configuration({
-    apiKey: environment.openAI.OPENAI_API_KEY,
+    apiKey: environment.OPENAI_API_KEY,
   });
   private openai: OpenAIApi = new OpenAIApi(this.configuration);
 
