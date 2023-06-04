@@ -53,19 +53,11 @@ app.post("/api/posts", (req, res, next) => {
 });
 
 app.get("/api/users", (req, res, next) => {
-  const users = [
-    {
-      name: "Luke",
-      password: "I will make a DND Master with ChatGPT"
-    },
-    {
-      name: "Betty",
-      password: "This is my wife! She play computer games every day!"
-    }
-  ];
-  res.status(200).json({
-    message: "Posts fetched successfully!",
-    users: users
+  User.find().then(users => {
+    res.status(200).json({
+      message: "Posts fetched successfully!",
+      users: users
+    });
   });
 });
 
