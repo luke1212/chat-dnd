@@ -32,7 +32,15 @@
     </form>
   </mat-card>
   <div *ngFor="let user of users">
-    <p>{{ user.username }}</p>
-    <p>{{ user.password }}</p>
+    <p>username: {{ user.username }}</p>
+    <p>password: {{ user.password }}</p>
+    <button
+      mat-raised-button
+      color="accent"
+      type="submit"
+      (click)="onDelete(user.id)"
+    >
+      Delete
+    </button>
   </div>
 </div>

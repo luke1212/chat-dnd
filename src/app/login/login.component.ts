@@ -28,8 +28,13 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (form.invalid) {
       return;
     }
-    this.userService.addUser("", form.value.username, form.value.password);
+    this.userService.addUser(form.value.username, form.value.password);
     form.resetForm();
+  }
+
+  // Delete user by id when click onDelete button
+  onDelete(userId: string) {
+    this.userService.deleteUser(userId);
   }
 
   ngOnDestroy(): void {
