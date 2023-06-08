@@ -5,7 +5,7 @@
     "ng": "ng",
     "config": "ts-node ./src/assets/setEnv.ts",
     "start": "npm run config -- --environment=dev && ng serve",
-    "build": "npm run config -- --environment=prod && ng build --prod",
+    "build": "npm run config -- --environment=prod && ng serve",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "start:server": "nodemon server.js"
