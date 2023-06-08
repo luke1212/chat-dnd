@@ -25,18 +25,14 @@ if (!existsSync(envDirectory)) {
   mkdirSync(envDirectory);
 }
 
-//creates the `environment.dev.ts` and `environment.ts` file if it does not exist
-writeFileUsingFS('./src/environments/environment.dev.ts', '');
-writeFileUsingFS('./src/environments/environment.ts', '');
-
 
 // Checks whether command line argument of `prod` was provided signifying production mode
 const isProduction = environment === 'prod';
 
 // choose the correct targetPath based on the environment chosen
-// const targetPath = isProduction
-//   ? './src/environments/environment.prod.ts'
-//   : './src/environments/environment.ts';
+const targetPath = isProduction
+  ? './src/environments/environment.prod.ts'
+  : './src/environments/environment.ts';
 
 //actual content to be compiled dynamically and pasted into respective environment files
 const environmentFileContent = `
@@ -47,6 +43,5 @@ const environmentFileContent = `
   };
 `;
 
-writeFileUsingFS('./src/environments/environment.dev.ts', environmentFileContent); // appending data into the target file
-writeFileUsingFS('./src/environments/environment.ts', environmentFileContent);
+writeFileUsingFS(targetPath, environmentFileContent); // appending data into the target file
 /* tslint:enable */
