@@ -6,8 +6,6 @@ const { argv } = require('yargs');
 require('dotenv').config({path: './.env'});
 const environment = argv.environment;
 
-console.log(process.env.OPENAI_API_KEY);
-
 function writeFileUsingFS(targetPath, environmentFileContent) {
   writeFile(targetPath, environmentFileContent, function (err) {
     if (err) {
@@ -27,8 +25,8 @@ if (!existsSync(envDirectory)) {
   mkdirSync(envDirectory);
 }
 
-//creates the `environment.prod.ts` and `environment.ts` file if it does not exist
-writeFileUsingFS('./src/environments/environment.prod.ts', '');
+//creates the `environment.dev.ts` and `environment.ts` file if it does not exist
+writeFileUsingFS('./src/environments/environment.dev.ts', '');
 writeFileUsingFS('./src/environments/environment.ts', '');
 
 
@@ -49,6 +47,6 @@ const environmentFileContent = `
   };
 `;
 
-writeFileUsingFS('./src/environments/environment.prod.ts', environmentFileContent); // appending data into the target file
+writeFileUsingFS('./src/environments/environment.dev.ts', environmentFileContent); // appending data into the target file
 writeFileUsingFS('./src/environments/environment.ts', environmentFileContent);
 /* tslint:enable */
