@@ -1,12 +1,11 @@
 
 //MongoDB
 const { MongoClient, ServerApiVersion } = require('mongodb');
-const environment = require("./environment");
 const mongoose = require("mongoose");
 
 mongoose
   .connect(
-    environment.mongoDB.MONGODB_URI
+   process.env.MONGODB_URI
   )
   .then(() => {
     console.log("Connected to database!");

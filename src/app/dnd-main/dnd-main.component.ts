@@ -1,9 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Configuration, OpenAIApi } from "openai";
-import { environment } from "../../../environments/environment";
+import { environment } from "../../environments/environment";
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from "../services/user.service";
-import { User } from '../model/user.model';
 
 @Component({
   selector: 'app-dnd-main',
@@ -43,8 +42,6 @@ export class DndMainComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
-
   }
 
   open(modal: any): void {
