@@ -3,7 +3,7 @@
 const { writeFile, existsSync, mkdirSync } = require('fs');
 const { argv } = require('yargs');
 
-require('dotenv').config({path: './.env'});
+require('dotenv').config({ path: './.env' });
 const environment = argv.environment;
 
 function writeFileUsingFS(targetPath, environmentFileContent) {
@@ -25,6 +25,8 @@ if (!existsSync(envDirectory)) {
   mkdirSync(envDirectory);
 }
 
+writeFileUsingFS('./src/environments/environment.prod.ts', '');
+writeFileUsingFS('./src/environments/environment.ts', '');
 
 // Checks whether command line argument of `prod` was provided signifying production mode
 const isProduction = environment === 'prod';
