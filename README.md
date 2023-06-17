@@ -16,24 +16,11 @@ run `npm run start:server`to start the project in http://localhost:3000/.
 2. set port from private to public.
 
 ## Environment Setup
+Create .env file at the root folder that contains enviornment variables.
 ```
-environment.ts
-export class environment {
-    public static openAI = {
-        OPENAI_API_KEY: ''
-    }
-}
-
-environment.js
-class environment {
-    static mongoDB = {
-        MONGODB_ATLAS_URI: 'mongodb+srv://slothbettyz:<password>@chatdnd.49dfejo.mongodb.net/?retryWrites=true&w=majority',
-        MONGODB_LOCAL_URI: 'mongodb://localhost:27017'
-    }
-}
-
-module.exports = environment;
-
+OPENAI_API_KEY: ''
+MONGODB_ATLAS_URI: 'mongodb+srv://slothbettyz:<password>@chatdnd.49dfejo.mongodb.net/?retryWrites=true&w=majority',
+MONGODB_LOCAL_URI: 'mongodb://localhost:27017'
 ```
 Generated OpenAI private key in OpenAI API page and paste into the `''` above.<br>
 Generated MongoDb password paste into the `<passward>` above.<br>
