@@ -24,6 +24,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     )
   }
 
+  // Add user when click on submit button
   onSubmit(form: NgForm) {
     if (form.invalid) {
       return;
@@ -34,9 +35,11 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   // Delete user by id when click onDelete button
   onDelete(userId: string) {
+    console.log("Delete user id: " + userId);
     this.userService.deleteUser(userId);
   }
 
+  // Unsubscribe when component destroyed
   ngOnDestroy(): void {
     this.usersSub.unsubscribe();
   }
