@@ -2,6 +2,7 @@
 //MongoDB
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const mongoose = require("mongoose");
+require('dotenv').config({ path: './.env' });
 
 mongoose
   .connect(
@@ -46,7 +47,7 @@ app.post("/api/users", (req, res, next) => {
   user.save().then(createdPost => {
     res.status(201).json({
       message: "Users added successfully",
-      id: createdPost._id
+      userId: createdPost._id
     });
   });
 });
