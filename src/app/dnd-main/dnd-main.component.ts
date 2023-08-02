@@ -17,6 +17,7 @@ export class DndMainComponent implements OnInit {
   questions = '';
   chatDisplay = '';
   response: any;
+  isLoading: boolean;
 
   messages: any = [{
     role: "system",
@@ -52,9 +53,10 @@ export class DndMainComponent implements OnInit {
     this.updateMessages({
       role: "user", content: this.questions
     });
-    await this.openAiApiCall();
+    this.isLoading = true;
     this.questions = '';
-    this.checkToken();
+    await this.openAiApiCall();
+    this.isLoading = false;
   }
 
   async onSave() {
@@ -73,12 +75,6 @@ export class DndMainComponent implements OnInit {
 
   updateMessages(message: any) {
     this.messages.push(message);
-  }
-
-  checkToken() {
-    if (this.countTokens(this.messages) > 3000) {
-      alert("We are about to reach the token limit. please save the process");
-    }
   }
 
   countTokens(words: { role: string; content: string }[]): number {

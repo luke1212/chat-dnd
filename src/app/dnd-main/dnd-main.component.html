@@ -79,11 +79,15 @@
                 rows="4"
                 [(ngModel)]="questions"
                 (keyup.enter)="onSubmit()"
-              ></textarea>
-              <label class="form-label" for="textAreaExample"
-                >Type your message</label
-              >
-              <form class="d-flex justify-content-end">
+                [disabled]="isLoading"
+              >        
+            </textarea>
+            <div *ngIf = "isLoading" >
+              <span class="form-label" for="textAreaExample"
+              >Loading........</span>
+              <mat-spinner [diameter]="18" style="float: right;"></mat-spinner>
+            </div> 
+              <form class="d-flex justify-content-end" style = "margin-top: 2.3%;">
                 <button
                   class="btn btn-outline-success d-flex justify-content-end"
                   type="submit"
