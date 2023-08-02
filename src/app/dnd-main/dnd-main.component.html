@@ -80,6 +80,7 @@
                 [(ngModel)]="questions"
                 (keyup.enter)="onSubmit()"
                 [disabled]="isLoading"
+                placeholder="You can type anything to start..."
               >        
             </textarea>
             <div *ngIf = "isLoading" >
